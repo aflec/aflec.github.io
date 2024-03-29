@@ -3,8 +3,6 @@
 const opcoesParaJogar = ['rock', 'paper', 'scissors'];
 
 function getComputerChoice() {
-    // buscar como usar uma selecao aleatoria (tipo random)
-    //retornar 'Rock', 'Paper', 'Scissors';
     let indiceAleatorio = Math.floor(Math.random() * opcoesParaJogar.length);
     return opcoesParaJogar[indiceAleatorio];
 }
