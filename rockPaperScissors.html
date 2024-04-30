@@ -4,22 +4,72 @@
   <head>
   <meta charset="UTF-8">
   <title>Rock Paper Scissors</title>
+  <style>
+    #container {
+	font-size: 22px;
+	font-weight: bold;
+	color: purple;
+	text-align: center;
+	background-color: #CBC3E3;
+	border-radius: 20px;
+	padding: 20px;
+	margin: 10px;
+    }
+    img {
+	width: 60px;
+	height: 60px;
+    }
+    .imgContainer {
+	background-color: lightblue;
+	margin: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+    }
+    #btnRock {
+	margin-left: 20px;
+    }
+    .btnClass {
+	margin-left: 10px;
+	border-radius: 7px;
+	width: 85px;
+	height: 40px;	
+    }
+    #target {
+	margin-left: 15px;
+    }
+    #computador {
+	margin-left: 15px;
+    }
+
+  </style>
 </head>
   <body>
    
     <h1>Rock Paper Scissors</h1>
 
-    <button onclick= id="btnRock">ROCK</button>
-    <button id="btnPaper">PAPER</button>
-    <button id="btnScissors">SCISSORS</button>
+    <button onclick='pickUserChoice("rock")' id="btnRock" class="btnClass">ROCK</button>
+    <button onclick='pickUserChoice("paper")' id="btnPaper" class="btnClass">PAPER</button>
+    <button onclick='pickUserChoice("scissors")' id="btnScissors" class="btnClass">SCISSORS</button>
+
+    <div class="imgContainer">
+      <img src="https://cdn0.iconfinder.com/data/icons/seo-web-4-1/128/Vigor_User-Avatar-Profile-Photo-01-256.png" />
+      <h2 id="target">Escolha do usuário</h2>
+    </div>
+    
+    <div class="imgContainer">
+	<img src="https://cdn0.iconfinder.com/data/icons/seo-web-4-1/128/Vigor_Laptop-Web_Design-Web_development-Coding-256.png" />
+
+	<h2 id="computador">Escolha do computador</h2>
+    </div>
+
+    <div id="container">Resultado da Jogada</div>
 
 
-  <script src="rockPaperScissors.js"></script>
+    <script src="rockPaperScissors.js"></script>
   
-</body>
-
-
-
+  </body>
+  
 </html>
 
 
