@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <title>Rock Paper Scissors</title>
   <style>
+    #titulo {
+	text-align: center;
+    }
     #container {
 	font-size: 22px;
 	font-weight: bold;
@@ -29,7 +32,11 @@
     #btnRock {
 	margin-left: 20px;
     }
+    #btnPlayGame {
+	margin-left: 120px;
+    }
     .btnClass {
+	margin-top: 10px;
 	margin-left: 10px;
 	border-radius: 7px;
 	width: 85px;
@@ -41,17 +48,45 @@
     #computador {
 	margin-left: 15px;
     }
+    #escolha {
+	width: 50px;
+	height: 40px;
 
+    }
+    #divQtdRodadas {
+	margin-left: 20px;
+    }
+    #h3Rodadas {
+	margin-bottom: 5px
+    }
   </style>
-</head>
+  </head>
+  
   <body>
    
-    <h1>Rock Paper Scissors</h1>
+    <h1 id="titulo">Rock Paper Scissors</h1>
+
+    <div id="divQtdRodadas">
+      <label for="escolha"><h2 id="h3Rodadas">Escolha a quantidade de rodadas que deseja jogar:</h2></label>
+      <select id="escolha" name="escolha" onchange="habilitarBotoes()">
+
+	<option value="0">-</option>
+	<option value="1">1</option>
+	<option value="3">3</option>
+	<option value="5">5</option>
+      </select>
+    </div>
+
+    
 
     <button onclick='pickUserChoice("rock")' id="btnRock" class="btnClass">ROCK</button>
     <button onclick='pickUserChoice("paper")' id="btnPaper" class="btnClass">PAPER</button>
     <button onclick='pickUserChoice("scissors")' id="btnScissors" class="btnClass">SCISSORS</button>
 
+    <div>
+    <button onclick='playGame()' id="btnPlayGame" class="btnClass">JOGAR</button>
+    </div>
+    
     <div class="imgContainer">
       <img src="https://cdn0.iconfinder.com/data/icons/seo-web-4-1/128/Vigor_User-Avatar-Profile-Photo-01-256.png" />
       <h2 id="target">Escolha do usuário</h2>
