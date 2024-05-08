@@ -8,13 +8,17 @@ var container = document.getElementById('container');
 container.innerHTML = "<p>O texto capturado é: " + entrada + "</p>";
 */
 
-//desabilitar o botao jogar depois que os botoes de escolha forem habilitados e habilitar quando uma opcao do usuario for escolhida
-//limpar a opcao do computador quando o usuario escolher outra opcao
-//colocar as moedinhas como vidas para as rodadas do usuario
+// implementar o resultado final. Quando o usuario escolher o numero de rodadas eu quero que apareca uma div com o resultado final (melhor de X) apos a ultima jogada
+// implementar as fichas para melhorar a visualizacao do usuario sobre o numero de rodadas restantes
+
+
+let quantidadeDeFichas;
 
 function habilitarBotoes() {
     const select = document.querySelector("#escolha");
     const opcaoSelecionada = select.options[select.selectedIndex].value;
+    quantidadeDeFichas = Number(opcaoSelecionada);
+    contadorDeFichas();
     if (opcaoSelecionada === "0") { // Quando o valor selecionado for "0" ou "-"
         document.querySelector("#btnRock").disabled = true;
         document.getElementById("btnPaper").disabled = true;
@@ -24,33 +28,17 @@ function habilitarBotoes() {
         document.querySelector("#btnRock").disabled = false;
         document.getElementById("btnPaper").disabled = false;
         document.getElementById("btnScissors").disabled = false;
-//	document.querySelector("#btnPlayGame").disabled = false;
     }
 }
 
 habilitarBotoes();
+
 
 function getComputerChoice() {
     const opcoesParaJogar = ['rock', 'paper', 'scissors'];
     let indiceAleatorio = Math.floor(Math.random() * opcoesParaJogar.length);
     return opcoesParaJogar[indiceAleatorio];
 }
-
-let fichas = 0;
-
-function mostrarOpcaoSelecionada() {
-
-    const select = document.querySelector("#escolha");
-    const opcaoSelecionada = select.options[select.selectedIndex].value;
-    if(opcaoSelecionada === "-") {
-	document.querySelector("#btnRock").disabled = true;
-	document.getElementById("btnPaper").disabled = true;
-	document.getElementById("btnScissors").disabled = true;
-    }
-    console.log(opcaoSelecionada);
-    fichas = opcaoSelecionada;
-}
-mostrarOpcaoSelecionada();
 
 let userChoice;
 
@@ -62,10 +50,11 @@ function pickUserChoice(escolhaUsuario) {
 
     const computador = document.querySelector("#computador");
     computador.textContent = "?????";
+    
 }
 
-
 function playGame() {
+   
     const computerChoice = getComputerChoice();
     const resultado = playRound(userChoice, computerChoice);
 
@@ -74,8 +63,33 @@ function playGame() {
     const computador = document.querySelector("#computador");
     computador.textContent = computerChoice;
     const resultJogada = document.querySelector("#container");
+
     resultJogada.textContent = resultado;
+
+    quantidadeDeFichas--;
+    contadorDeFichas();
+
+    if(quantidadeDeFichas === 0) {
+	document.querySelector("#btnRock").disabled = true;
+        document.getElementById("btnPaper").disabled = true;
+        document.getElementById("btnScissors").disabled = true;
+	document.querySelector("#btnPlayGame").disabled = true;
+	const informar = document.querySelector("#fichas");
+	informar.textContent = "Você esgotou suas fichas!";
+
+	const select = document.querySelector("#escolha");
+	//select.options[select.selectedIndex].value;
+	select.value = "0";
+	
+	return;
+    }
 }
+
+function limparDiv() {
+    const informarFichas = document.querySelector("#fichas");
+    informarFichas.textContent = "";
+}
+
  
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === 'rock' && computerSelection === 'rock') {
@@ -99,4 +113,14 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-  
+function contadorDeFichas () {
+    const numeroDeFichas = document.querySelector("#moedas");
+    numeroDeFichas.textContent = "";
+    for (let i = quantidadeDeFichas; i >0; i--) {
+
+	const img = document.createElement("img");
+	img.src = "https://cdn2.iconfinder.com/data/icons/flat-icons-19/128/Coin.png";
+	numeroDeFichas.appendChild(img);
+    }
+}
+
