@@ -1,12 +1,6 @@
-// JS part of Rock Paper Scissors
-//https://chat.openai.com/share/9e1ea0c9-729f-4539-adf5-59c9c09c395f -> esse é um link com uma forma de fazer um input por parte do usuário
+// JS do Rock Paper Scissors usado no HTML 
 
 /*
-  let entrada = prompt('este eh um teste para o html');
-//console.log(entrada);
-
-// Capturando o texto usando prompt
-//var texto = prompt("Digite algo:");
 
 // Selecionando o elemento HTML pelo ID
 var container = document.getElementById('container');
@@ -15,22 +9,136 @@ var container = document.getElementById('container');
 container.innerHTML = "<p>O texto capturado é: " + entrada + "</p>";
 */
 
-const readline = require('readline');
-const opcoesParaJogar = ['rock', 'paper', 'scissors'];
+
+// implementar o resultado final. Quando o usuario escolher o numero de rodadas eu quero que apareca uma div com o resultado final (melhor de X) apos a ultima jogada
+// implementar as fichas para melhorar a visualizacao do usuario sobre o numero de rodadas restantes
+
+
+let quantidadeDeFichas;
+
+function habilitarBotoes() {
+    const select = document.querySelector("#escolha");
+    const opcaoSelecionada = select.options[select.selectedIndex].value;
+    quantidadeDeFichas = Number(opcaoSelecionada);
+    contadorDeFichas();
+    if (opcaoSelecionada === "0") { // Quando o valor selecionado for "0" ou "-"
+        document.querySelector("#btnRock").disabled = true;
+        document.getElementById("btnPaper").disabled = true;
+        document.getElementById("btnScissors").disabled = true;
+	document.querySelector("#btnPlayGame").disabled = true;
+    } else {
+        document.querySelector("#btnRock").disabled = false;
+        document.getElementById("btnPaper").disabled = false;
+        document.getElementById("btnScissors").disabled = false;
+    }
+}
+
+habilitarBotoes();
+
 
 function getComputerChoice() {
+    const opcoesParaJogar = ['rock', 'paper', 'scissors'];
     let indiceAleatorio = Math.floor(Math.random() * opcoesParaJogar.length);
     return opcoesParaJogar[indiceAleatorio];
 }
 
-function playRound(playerSelection, computerSelection) {
-    if (!['rock', 'paper', 'scissors'].includes(playerSelection)) {
-	//	throw new Error("Valor inválido! Digite sua opcão novamente");
-	console.error("Valor inválido! Digite sua opcão novamente");
+let userChoice;
+
+function pickUserChoice(escolhaUsuario) {
+    const target = document.querySelector("#target");
+    target.textContent = escolhaUsuario;
+    userChoice = escolhaUsuario;
+    document.querySelector("#btnPlayGame").disabled = false;
+
+    const computador = document.querySelector("#computador");
+    computador.textContent = "?????";
+    
+}
+
+let scoreUsuario = 0;
+let scoreComputador = 0;
+
+function playGame() {
+   
+    const computerChoice = getComputerChoice();
+    const resultado = playRound(userChoice, computerChoice);
+
+    const target = document.querySelector("#target");
+    target.textContent = userChoice;
+    const computador = document.querySelector("#computador");
+    computador.textContent = computerChoice;
+    const resultJogada = document.querySelector("#container");
+
+    resultJogada.textContent = resultado;
+
+    scoreUsuario += resultado.startsWith("You Win") ? 1 : 0;
+    scoreComputador += resultado.startsWith("You Lose") ? 1 : 0;
+
+    quantidadeDeFichas--;
+    
+    contadorDeFichas();
+
+    if(quantidadeDeFichas === 0) {
+	document.querySelector("#btnRock").disabled = true;
+        document.getElementById("btnPaper").disabled = true;
+        document.getElementById("btnScissors").disabled = true;
+	document.querySelector("#btnPlayGame").disabled = true;
+	
+	const informar = document.querySelector("#moedas");
+	informar.textContent = "Você esgotou suas fichas!";
+	informar.style.color = "red";
+	informar.style.fontSize = "20px";
+	informar.style.fontWeight = "bold";
+
+
+	const mostrarScore = document.querySelector("#scoreFinal");
+	const rod = document.querySelector("#escolha");
+	const opcaoSelecionada = rod.options[rod.selectedIndex].value;
+	
+	if (scoreUsuario > scoreComputador) {
+	    mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador
+		+ `<br><br>O <u>usuário</u> venceu a melhor de ${opcaoSelecionada} rodada(s)`;
+	}
+	else if (scoreUsuario < scoreComputador) {
+	    mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador
+		+ `<br><br>O <u>computador</u> venceu a melhor de ${opcaoSelecionada} rodada(s)`;
+	} else {
+	    mostrarScore.innerHTML =  mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador + "<br><br>EMPATE";
+	}
+	    
+	const select = document.querySelector("#escolha");
+
+	select.value = "0";
+
+	scoreUsuario = 0;
+	scoreComputador = 0;
+	console.log({scoreUsuario, scoreComputador});
+//	mostrarScore.innerHTML = "";	
+	
 	return;
     }
-    console.log(`A opcao do usuario jogador foi: ${playerSelection}`);
-    console.log(`A opcao do computador foi: ${computerSelection}`); 
+    
+}
+
+function limparScoreFinal() {
+    const mostrarScore = document.querySelector("#scoreFinal");
+    mostrarScore.textContent = "";
+    const alterarTextoResultadoParcial = document.querySelector("#container");
+    alterarTextoResultadoParcial.textContent = "Resultado da Jogada";    
+}
+
+/*
+  deixei essa funçao aqui apenas caso precise pra algo que nao estou vendo no momento. Inclusive a div "fichas"foi comentada no html pra nao mais ser usada.
+  function limparDiv() {
+  const informarFichas = document.querySelector("#fichas");
+  informarFichas.textContent = "";
+  }
+  
+*/
+
+ 
+function playRound(playerSelection, computerSelection) {
+
     if (playerSelection === 'rock' && computerSelection === 'rock') {
 	return "Tie";
     } else if (playerSelection === 'rock' && computerSelection === 'paper') {
@@ -51,56 +159,20 @@ function playRound(playerSelection, computerSelection) {
 	return "Tie";
     }
 }
-//console.log(`Resultado da rodada: ${playRound(process.argv[2], getComputerChoice())}`);
-//console.log("aqui é o final da funcao playRound");
 
-function withUserChoice(rl, banana) {
-    rl.question('Digite algo: ', banana);
-}
 
-function evaluateRound(userChoice, resultadosFinais) {
-    let result = playRound(userChoice, getComputerChoice());
-    if (result.startsWith("You Win")) { //a funcao starts.With ja retorna um valor booleano
-	resultadosFinais.scoreUsuario++;
-    } else if (result.startsWith("You Lose")) {
-	resultadosFinais.scoreComputador++;
-    }
-}
+function contadorDeFichas () {
+    const numeroDeFichas = document.querySelector("#moedas");
+    numeroDeFichas.textContent = "";
+    for (let i = quantidadeDeFichas; i >0; i--) {
 
-function playGame(numeroDeVezesAJogar, rl, resultadosFinais, rodada = 0) {
-  
-    
-    withUserChoice(rl, userChoice => {
-	evaluateRound(userChoice, resultadosFinais);
-	if (rodada <= numeroDeVezesAJogar) {
-	    rodada++;
-	    playGame(numeroDeVezesAJogar, rl, resultadosFinais, rodada);
-	}
-    }
-		  );
-    if (rodada == numeroDeVezesAJogar) {
-	rl.close();
-	if (resultadosFinais.scoreUsuario > resultadosFinais.scoreComputador) {
-	    console.log("O USUARIO venceu!");
-	} else if (resultadosFinais.scoreUsuario < resultadosFinais.scoreComputador) {
-	    console.log("O COMPUTADOR venceu!");
-	} else {
-	    console.log("EMPATE");
-	}
-	const scoreEmpate = numeroDeVezesAJogar - resultadosFinais.scoreUsuario - resultadosFinais.scoreComputador;
-	console.log({...resultadosFinais, scoreEmpate});
+	const img = document.createElement("img");
+	img.src = "https://cdn2.iconfinder.com/data/icons/flat-icons-19/128/Coin.png";
+	img.style.width = "45px";
+	img.style.height = "45px";
+	img.style.paddingRight = "8px";
+	numeroDeFichas.appendChild(img);
     }
 }
 
 
-	//só quer executar a linha de baixo se resultadosFinais NAO tiver preenchido
-const resultadosFinais = {scoreUsuario: 0,
-			    scoreComputador: 0,
-		       };
-  
-  const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-    });
-
-playGame(3, rl, resultadosFinais);

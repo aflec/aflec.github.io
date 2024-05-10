@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <style>
+    #titulo {
+	text-align: center;
+    }
+    .results {
+	font-size: 22px;
+	font-weight: bold;
+	color: purple;
+	text-align: center;
+	background-color: #CBC3E3;
+	border-radius: 20px;
+	padding: 20px;
+	margin: 10px;
+    }
+    img {
+	width: 60px;
+	height: 60px;
+    }
+    .imgContainer {
+	background-color: lightblue;
+	margin: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+    }
+    #btnRock {
+	margin-left: 20px;
+    }
+    #btnPlayGame {
+	margin-left: 120px;
+    }
+    .btnClass {
+	margin-top: 10px;
+	margin-left: 10px;
+	border-radius: 7px;
+	width: 85px;
+	height: 40px;	
+    }
+    #target {
+	margin-left: 15px;
+    }
+    #computador {
+	margin-left: 15px;
+    }
+    #escolha {
+	width: 50px;
+	height: 40px;
+
+    }
+    #divQtdRodadas {
+	margin-left: 20px;
+	margin-right: 150px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+    }
+    #h3Rodadas {
+	margin-bottom: 5px
+    }
+    #semFichas {
+	font-size:22px;
+	font-weight: bold;
+    }
+     #fichas {
+	font-size: 22px;
+	font-weight: bold;
+	color: red;
+	text-align: center;
+	border-radius: 20px;
+	padding: 20px;
+	margin: 10px;
+    }
+    
+  </style>
+  </head>
+  
+  <body>
+   
+    <h1 id="titulo">Rock Paper Scissors</h1>
+
+    <label for="escolha"><h2 id="h3Rodadas">Escolha a quantidade de rodadas que deseja jogar:</h2></label>
+    
+    <div id="divQtdRodadas">
+     
+      <select id="escolha" name="escolha" onchange="habilitarBotoes(); limparScoreFinal();">
+	<option value="0">-</option>
+	<option value="1">1</option>
+	<option value="3">3</option>
+	<option value="5">5</option>
+      </select>
+
+      <div id="moedas"></div>
+      
+    </div>
+
+    <button onclick='pickUserChoice("rock")' id="btnRock" class="btnClass">ROCK</button>
+    <button onclick='pickUserChoice("paper")' id="btnPaper" class="btnClass">PAPER</button>
+    <button onclick='pickUserChoice("scissors")' id="btnScissors" class="btnClass">SCISSORS</button>
+
+    <div>
+    <button onclick="playGame()" id="btnPlayGame" class="btnClass">JOGAR</button>
+    </div>
+    
+    <div class="imgContainer">
+      <img src="https://cdn0.iconfinder.com/data/icons/seo-web-4-1/128/Vigor_User-Avatar-Profile-Photo-01-256.png" />
+      <h2 id="target">Escolha do usuário</h2>
+    </div>
+    
+    <div class="imgContainer">
+	<img src="https://cdn0.iconfinder.com/data/icons/seo-web-4-1/128/Vigor_Laptop-Web_Design-Web_development-Coding-256.png" />
+
+	<h2 id="computador">Escolha do computador</h2>
+    </div>
+
+    <div id="container" class="results">Resultado da Jogada</div>
+
+   <!-- <div id="fichas"></div> -->
+
+    <div id="scoreFinal" class="results"></div>
+
+    <script src="rockPaperScissors.js"></script>
+  
+  </body>
+  
+</html>
+
+
+  
