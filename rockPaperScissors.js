@@ -33,7 +33,6 @@ function habilitarBotoes() {
 
 habilitarBotoes();
 
-
 function getComputerChoice() {
     const opcoesParaJogar = ['rock', 'paper', 'scissors'];
     let indiceAleatorio = Math.floor(Math.random() * opcoesParaJogar.length);
@@ -53,6 +52,9 @@ function pickUserChoice(escolhaUsuario) {
     
 }
 
+let scoreUsuario = 0;
+let scoreComputador = 0;
+
 function playGame() {
    
     const computerChoice = getComputerChoice();
@@ -66,7 +68,11 @@ function playGame() {
 
     resultJogada.textContent = resultado;
 
+    scoreUsuario += resultado.startsWith("You Win") ? 1 : 0;
+    scoreComputador += resultado.startsWith("You Lose") ? 1 : 0;
+
     quantidadeDeFichas--;
+    
     contadorDeFichas();
 
     if(quantidadeDeFichas === 0) {
@@ -74,21 +80,58 @@ function playGame() {
         document.getElementById("btnPaper").disabled = true;
         document.getElementById("btnScissors").disabled = true;
 	document.querySelector("#btnPlayGame").disabled = true;
-	const informar = document.querySelector("#fichas");
+	
+	const informar = document.querySelector("#moedas");
 	informar.textContent = "Você esgotou suas fichas!";
+	informar.style.color = "red";
+	informar.style.fontSize = "20px";
+	informar.style.fontWeight = "bold";
 
+
+	const mostrarScore = document.querySelector("#scoreFinal");
+	const rod = document.querySelector("#escolha");
+	const opcaoSelecionada = rod.options[rod.selectedIndex].value;
+	
+	if (scoreUsuario > scoreComputador) {
+	    mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador
+		+ `<br><br>O <u>usuário</u> venceu a melhor de ${opcaoSelecionada} rodada(s)`;
+	}
+	else if (scoreUsuario < scoreComputador) {
+	    mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador
+		+ `<br><br>O <u>computador</u> venceu a melhor de ${opcaoSelecionada} rodada(s)`;
+	} else {
+	    mostrarScore.innerHTML =  mostrarScore.innerHTML = "Usuário: " + scoreUsuario + "<br>Computador: " + scoreComputador + "<br><br>EMPATE";
+	}
+	    
 	const select = document.querySelector("#escolha");
-	//select.options[select.selectedIndex].value;
+
 	select.value = "0";
+
+	scoreUsuario = 0;
+	scoreComputador = 0;
+	console.log({scoreUsuario, scoreComputador});
+//	mostrarScore.innerHTML = "";	
 	
 	return;
     }
+    
 }
 
-function limparDiv() {
-    const informarFichas = document.querySelector("#fichas");
-    informarFichas.textContent = "";
+function limparScoreFinal() {
+    const mostrarScore = document.querySelector("#scoreFinal");
+    mostrarScore.textContent = "";
+    const alterarTextoResultadoParcial = document.querySelector("#container");
+    alterarTextoResultadoParcial.textContent = "Resultado da Jogada";    
 }
+
+/*
+  deixei essa funçao aqui apenas caso precise pra algo que nao estou vendo no momento. Inclusive a div "fichas"foi comentada no html pra nao mais ser usada.
+  function limparDiv() {
+  const informarFichas = document.querySelector("#fichas");
+  informarFichas.textContent = "";
+  }
+  
+*/
 
  
 function playRound(playerSelection, computerSelection) {
@@ -120,6 +163,9 @@ function contadorDeFichas () {
 
 	const img = document.createElement("img");
 	img.src = "https://cdn2.iconfinder.com/data/icons/flat-icons-19/128/Coin.png";
+	img.style.width = "45px";
+	img.style.height = "45px";
+	img.style.paddingRight = "8px";
 	numeroDeFichas.appendChild(img);
     }
 }

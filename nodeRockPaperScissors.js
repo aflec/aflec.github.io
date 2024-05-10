@@ -80,6 +80,7 @@ function playGame(numeroDeVezesAJogar, rl, resultadosFinais, rodada = 0) {
 		  );
     if (rodada == numeroDeVezesAJogar) {
 	rl.close();
+	
 	if (resultadosFinais.scoreUsuario > resultadosFinais.scoreComputador) {
 	    console.log("O USUARIO venceu!");
 	} else if (resultadosFinais.scoreUsuario < resultadosFinais.scoreComputador) {

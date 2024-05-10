@@ -9,7 +9,7 @@
     #titulo {
 	text-align: center;
     }
-    #container {
+    .results {
 	font-size: 22px;
 	font-weight: bold;
 	color: purple;
@@ -89,7 +89,7 @@
     
     <div id="divQtdRodadas">
      
-      <select id="escolha" name="escolha" onchange="habilitarBotoes(); limparDiv();">
+      <select id="escolha" name="escolha" onchange="habilitarBotoes(); limparScoreFinal();">
 	<option value="0">-</option>
 	<option value="1">1</option>
 	<option value="3">3</option>
@@ -119,9 +119,11 @@
 	<h2 id="computador">Escolha do computador</h2>
     </div>
 
-    <div id="container">Resultado da Jogada</div>
+    <div id="container" class="results">Resultado da Jogada</div>
 
-    <div id="fichas"></div>
+   <!-- <div id="fichas"></div> -->
+
+    <div id="scoreFinal" class="results"></div>
 
     <script src="rockPaperScissors.js"></script>
   
